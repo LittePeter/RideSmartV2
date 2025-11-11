@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ReservaService {
+public class ReservaService implements ReservaServiceI{
 
     @Autowired
     private ReservaRepository reservaRepository;
@@ -21,9 +21,11 @@ public class ReservaService {
     @Autowired
     private ModelMapper mp;
 
-    public Reserva crearReserva(InfoReservaDTO info) {
+    @Override
+    public ReservaDTO crearReserva(InfoReservaDTO info) {
 
         Reserva res = new Reserva();
+
         res.setUsuario(info.getUsuario());
         res.setEstacion(info.getEstacion());
         res.setTipoViaje(info.getTipoViaje());
@@ -31,8 +33,8 @@ public class ReservaService {
         res.setFechaReserva(fechaReserva);
         res.setFechaVencimiento(fechaReserva.plusMinutes(10));
         res.setEstadoReserva("ACTIVA");
-
-        return reservaRepository.save(res);
+        reservaRepository.save(res);
+        return mp.map(res, ReservaDTO.class);
     }
 
     public void expirarReserva(long idReserva) {
@@ -48,8 +50,7 @@ public class ReservaService {
     }
 
     public ReservaDTO obtenerReserva(long idReserva) {
-        ReservaDTO resDTO = mp.map(reservaRepository.findByIdReserva(idReserva), ReservaDTO.class);
-        return resDTO;
+        return mp.map(reservaRepository.findByIdReserva(idReserva), ReservaDTO.class);
     }
 
     public List<ReservaDTO> obtenerReservas() {

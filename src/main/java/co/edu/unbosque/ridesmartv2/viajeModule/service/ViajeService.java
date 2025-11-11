@@ -19,8 +19,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ViajeService {
+public class ViajeService implements ViajeServiceI {
 
+    //TODO: Make use of this service
     @Autowired
     private ReservaService reservaService;
     @Autowired
@@ -30,8 +31,8 @@ public class ViajeService {
     @Autowired
     private ModelMapper mp;
 
-    public Viaje iniciarViaje (InfoInitViajeDTO info) {
-
+    @Override
+    public ViajeDTO iniciarViaje (InfoInitViajeDTO info) {
         Reserva reserva = reservaRepository.findByIdReserva(info.getReserva());
         if (reserva != null) {
             if (reserva.getEstadoReserva().equalsIgnoreCase("ACTIVA")) {
@@ -42,8 +43,8 @@ public class ViajeService {
                 viaje.setFechaInicio(LocalDateTime.now());
                 viaje.setTipoViaje(reserva.getTipoViaje());
                 viaje.setEstado("INICIADO");
-
-                return viajeRepository.save(viaje);
+                viajeRepository.save(viaje);
+                return mp.map(viaje, ViajeDTO.class);
             } else {
                 return null;
             }
@@ -52,6 +53,7 @@ public class ViajeService {
     }
 
     @Transactional
+    @Override
     public void finalizarViaje (InfoFinViajeDTO info) {
 
         long viajeId = info.getViajeId();
@@ -70,11 +72,11 @@ public class ViajeService {
         //#TODO: Implementar pagos
     }
 
+    @Override
     public ViajeDTO obtenerViaje (long viajeId) {
-        ViajeDTO viajeDTO = mp.map(viajeRepository.findByIdViaje(viajeId), ViajeDTO.class);
-        return viajeDTO;
+        return mp.map(viajeRepository.findByIdViaje(viajeId), ViajeDTO.class);
     }
-
+    @Override
     public List<ViajeDTO> obtenerViajes () {
         return viajeRepository
                 .findAll()
