@@ -21,7 +21,7 @@ public class ReservaController {
     @PostMapping
     public ResponseEntity<?> crearReserva(@RequestBody InfoReservaDTO info) {
         try {
-            Reserva reserva = reservaService.crearReserva(info);
+            ReservaDTO reserva = reservaService.crearReserva(info);
             return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
