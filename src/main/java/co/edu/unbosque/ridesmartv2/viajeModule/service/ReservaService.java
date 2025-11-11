@@ -50,8 +50,7 @@ public class ReservaService implements ReservaServiceI{
     }
 
     public ReservaDTO obtenerReserva(long idReserva) {
-        ReservaDTO resDTO = mp.map(reservaRepository.findByIdReserva(idReserva), ReservaDTO.class);
-        return resDTO;
+        return mp.map(reservaRepository.findByIdReserva(idReserva), ReservaDTO.class);
     }
 
     public List<ReservaDTO> obtenerReservas() {

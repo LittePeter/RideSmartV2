@@ -2,7 +2,6 @@ package co.edu.unbosque.ridesmartv2.viajeModule.controller;
 
 import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.InfoReservaDTO;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.ReservaDTO;
-import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Reserva;
 import co.edu.unbosque.ridesmartv2.viajeModule.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

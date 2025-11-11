@@ -35,8 +35,6 @@ public class ViajeService implements ViajeServiceI {
         Reserva reserva = reservaRepository.findByIdReserva(info.getReserva());
         if (reserva != null) {
             if (reserva.getEstadoReserva().equalsIgnoreCase("ACTIVA")) {
-                ViajeDTO viajeDTO = new ViajeDTO();
-
                 Viaje viaje = new Viaje();
                 viaje.setUsuario(reserva.getUsuario());
                 viaje.setBicicleta(info.getBicicleta());
@@ -75,8 +73,7 @@ public class ViajeService implements ViajeServiceI {
 
     @Override
     public ViajeDTO obtenerViaje (long viajeId) {
-        ViajeDTO viajeDTO = mp.map(viajeRepository.findByIdViaje(viajeId), ViajeDTO.class);
-        return viajeDTO;
+        return mp.map(viajeRepository.findByIdViaje(viajeId), ViajeDTO.class);
     }
     @Override
     public List<ViajeDTO> obtenerViajes () {
