@@ -22,8 +22,8 @@ public class UserController {
         UserDto newUser = userService.create(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable String id) {
+    @GetMapping
+    public ResponseEntity<UserDto> getUser(@RequestParam String id) {
         Optional<UserDto> getUser = userService.findById(id);
         if (getUser.isEmpty()) throw new UserNotFoundException(id);
         return ResponseEntity.ok(getUser.get());
