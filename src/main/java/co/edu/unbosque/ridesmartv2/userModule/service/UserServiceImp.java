@@ -1,5 +1,6 @@
 package co.edu.unbosque.ridesmartv2.userModule.service;
 
+import co.edu.unbosque.ridesmartv2.userModule.exception.UserNotFoundException;
 import co.edu.unbosque.ridesmartv2.userModule.model.dto.UserDto;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.User;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
@@ -47,7 +49,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserDto delete(UserDto userDto) {
-        return null;
+    public void delete(String id) {
+        if (!userRepo.existsById(id)) {
+            throw new UserNotFoundException("Usuario no encontrado");
+        }
+        userRepo.deleteById(id);
+    }
+
+    @Override
+    public List<UserDto> getAllUserDtoList() {
+        return userRepo
+                .findAll()
+                .stream()
+                .map(user -> mapper.map(user,UserDto.class)).toList();
     }
 }
