@@ -1,5 +1,6 @@
 package co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto;
 
+import co.edu.unbosque.ridesmartv2.estacionModule.model.dto.EstacionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,9 @@ import lombok.NoArgsConstructor;
 public class BicicletaDTO {
 
     private Long idBicicleta;
-    private int bateria;
-    private String candado;
+    private String tipo;
     private String estado;
-    private long estacion;
+    private int bateria;
+    private boolean candado;
+    private EstacionDTO estacionDTO;
 }

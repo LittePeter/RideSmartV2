@@ -71,7 +71,7 @@ public class BicicletaController {
     }
 
     @GetMapping("/estacion/{estacion}")
-    public ResponseEntity<?> obtenerBicicletasPorEstacion(@PathVariable long estacion) {
+    public ResponseEntity<?> obtenerBicicletasPorEstacion(@PathVariable String estacion) {
         try {
             List<BicicletaDTO> bicicletas = bicicletaService.obtenerBicicletasPorEstacion(estacion);
             if (bicicletas.isEmpty()) {
@@ -85,7 +85,7 @@ public class BicicletaController {
     }
 
     @PutMapping("/{id}/reubicar/{estacion}")
-    public ResponseEntity<?> reubicarBicicleta(@PathVariable long id, @PathVariable long estacion) {
+    public ResponseEntity<?> reubicarBicicleta(@PathVariable long id, @PathVariable String estacion) {
         try {
             bicicletaService.reubicarBicicleta(id, estacion);
             return ResponseEntity.ok("Bicicleta reubicada correctamente.");
