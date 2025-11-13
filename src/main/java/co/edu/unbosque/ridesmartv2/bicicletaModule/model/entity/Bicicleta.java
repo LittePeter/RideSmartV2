@@ -1,5 +1,6 @@
 package co.edu.unbosque.ridesmartv2.bicicletaModule.model.entity;
 
+import co.edu.unbosque.ridesmartv2.estacionModule.model.entity.Estacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +17,12 @@ public class Bicicleta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBicicleta;
 
-    private int bateria;
-    private String candado;
+    private String tipo;
     private String estado;
-    private long estacion;
+    private int bateria;
+    private boolean candado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nombre")
+    private Estacion estacion;
 }

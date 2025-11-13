@@ -3,7 +3,7 @@ package co.edu.unbosque.ridesmartv2.bicicletaModule.service;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto.BicicletaDTO;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.entity.Bicicleta;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.persistence.BicicletaRepository;
-import org.modelmapper.ModelMapper;
+import co.edu.unbosque.ridesmartv2.mapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +23,8 @@ public class BicicletaService {
     }
 
     public List<BicicletaDTO> obtenerBicicletas() {
-        return biciRepository
-                .findAll()
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+        List<BicicletaDTO> bicicletas = mp.mapList(biciRepository.findAll(), BicicletaDTO.class);
+        return bicicletas;
     }
 
     public BicicletaDTO obtenerBicicleta(long id) {
@@ -35,31 +32,23 @@ public class BicicletaService {
     }
 
     public List<BicicletaDTO> obtenerBicicletasPorEstado(String estado) {
-        return biciRepository
-                .findByEstado(estado)
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+        return mp.mapList(biciRepository.findByEstado(estado), BicicletaDTO.class);
     }
 
-    public List<BicicletaDTO> obtenerBicicletasPorEstacion(long estacion) {
-        return biciRepository
-                .findByEstacion(estacion)
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+    public List<BicicletaDTO> obtenerBicicletasPorEstacion(String estacion) {
+        return mp.mapList(biciRepository.findByEstacion(estacion), BicicletaDTO.class);
     }
 
-    public void reubicarBicicleta(long idBicicleta, long estacion) {
+    public void reubicarBicicleta(long idBicicleta, String estacion) {
         biciRepository.updateEstacionBici(idBicicleta, estacion);
     }
 
     public void bloquearBicicleta(long idBicicleta) {
-        biciRepository.updateCandado(idBicicleta, "BLOQUEADO");
+        biciRepository.updateCandado(idBicicleta, true);
     }
 
     public void desbloquearBicicleta(long idBicicleta) {
-        biciRepository.updateCandado(idBicicleta, "DESBLOQUEADO");
+        biciRepository.updateCandado(idBicicleta, false);
     }
 
     public void habilitarBicicleta(long idBicicleta) {

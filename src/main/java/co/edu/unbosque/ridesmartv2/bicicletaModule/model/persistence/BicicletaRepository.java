@@ -13,13 +13,13 @@ import java.util.List;
 public interface BicicletaRepository extends JpaRepository<Bicicleta, Long> {
 
     Bicicleta findById(long id);
-    List<Bicicleta> findByEstacion(long estacion);
+    List<Bicicleta> findByEstacion(String estacion);
     List<Bicicleta> findByEstado(String estado);
 
     @Transactional
     @Modifying
     @Query("UPDATE Bicicleta b SET b.estacion = :estacion WHERE b.idBicicleta = :bicicletaId")
-    void updateEstacionBici(long bicicletaId, long estacion);
+    void updateEstacionBici(long bicicletaId, String estacion);
 
     @Transactional
     @Modifying
@@ -34,5 +34,5 @@ public interface BicicletaRepository extends JpaRepository<Bicicleta, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE Bicicleta b SET b.candado = :candado WHERE b.idBicicleta = :bicicletaId")
-    void updateCandado(long bicicletaId, String candado);
+    void updateCandado(long bicicletaId, boolean candado);
 }
