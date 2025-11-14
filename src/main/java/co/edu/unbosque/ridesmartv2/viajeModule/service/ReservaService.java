@@ -1,58 +1,125 @@
 package co.edu.unbosque.ridesmartv2.viajeModule.service;
 
-
-import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.InfoReservaDTO;
+import co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto.BicicletaDTO;
+import co.edu.unbosque.ridesmartv2.bicicletaModule.model.entity.Bicicleta;
+import co.edu.unbosque.ridesmartv2.bicicletaModule.service.InterfaceBiciService;
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.ReservaDTO;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Reserva;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import co.edu.unbosque.ridesmartv2.config.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ReservaService implements ReservaServiceI{
+public class ReservaService implements  InterfaceReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
-
+    @Autowired
+    private InterfaceBiciService biciService;
     @Autowired
     private ModelMapper mp;
 
     @Override
-    public ReservaDTO crearReserva(InfoReservaDTO info) {
+    @Transactional
+    public boolean createReserva(ReservaDTO reservaDTO){
 
-        Reserva res = new Reserva();
+        boolean isAbleToCreate = false;
+        List<Reserva> reservasByUser = getReservasByUsuario(reservaDTO.getIdUsuario().getId());
+        List<Reserva> resActivas = reservasByUser.stream()
+                .filter(r -> r.getEstadoReserva().equalsIgnoreCase("CONFIRMADA"))
+                .toList();
 
-        res.setUsuario(info.getUsuario());
-        res.setEstacion(info.getEstacion());
-        res.setTipoViaje(info.getTipoViaje());
-        LocalDateTime fechaReserva = LocalDateTime.now();
-        res.setFechaReserva(fechaReserva);
-        res.setFechaVencimiento(fechaReserva.plusMinutes(10));
-        res.setEstadoReserva("ACTIVA");
-        reservaRepository.save(res);
-        return mp.map(res, ReservaDTO.class);
+        if (resActivas.isEmpty()){
+            isAbleToCreate = true;
+        } else {
+            return false;
+        }
+
+        if (isAbleToCreate){
+            Reserva reserva = mp.map(reservaDTO, Reserva.class);
+            reserva.setFechaReserva(LocalDateTime.now());
+            reserva.setEstadoReserva("CONFIRMADA");
+
+            List<BicicletaDTO> bicicletas = biciService.obtenerBicicletasPorEstacion(reservaDTO.getIdEstacion().getIdEstacion());
+            List<BicicletaDTO> bicisDisponibles = bicicletas.stream()
+                    .filter(b -> b.getEstado().equalsIgnoreCase("DISPONIBLE")
+                            && b.getBateria() > 40)
+                    .toList();
+            if (bicisDisponibles.isEmpty()){
+                return  false;
+            } else {
+                Bicicleta bici = mp.map(bicisDisponibles.get(0), Bicicleta.class);
+                reserva.setIdBicicleta(bici);
+                biciService.inhabilitarBicicleta(bici.getIdBicicleta());
+            }
+            return reservaRepository.save(reserva).equals(reserva);
+        } else  {
+            return false;
+        }
     }
 
-    public void expirarReserva(long idReserva) {
-        reservaRepository.updateEstadoReserva(idReserva, "EXPIRADA");
+    @Override
+    public List<ReservaDTO> getReservas(){
+        List<ReservaDTO> resDTO = mp.mapList(reservaRepository.findAll(), ReservaDTO.class);
+        return resDTO;
     }
 
-    public void cancelarReserva(long idReserva) {
-        reservaRepository.updateEstadoReserva(idReserva, "CANCELADA");
+    @Override
+    public List<ReservaDTO> getReservasByUsuario(String idUsuario){
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByUser(idUsuario), ReservaDTO.class);
+        return resDTO;
     }
 
-    public void cumplirReserva(long idReserva) {
-        reservaRepository.updateEstadoReserva(idReserva, "CUMPLIDA");
+    @Override
+    public List<ReservaDTO> getReservasByBicicleta(long bicicleta){
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByBicicleta(bicicleta), ReservaDTO.class);
+        return resDTO;
     }
 
-    public ReservaDTO obtenerReserva(long idReserva) {
-        return mp.map(reservaRepository.findByIdReserva(idReserva), ReservaDTO.class);
+    @Override
+    public List<ReservaDTO> getReservasByEstacion(String estacion){
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByEstacion(estacion), ReservaDTO.class);
+        return resDTO;
     }
 
-    public List<ReservaDTO> obtenerReservas() {
-        return mp.mapList(reservaRepository.findAll(), ReservaDTO.class);
+    @Override
+    public ReservaDTO getReserva(long idReserva){
+        ReservaDTO resDTO = mp.map(reservaRepository.findById(idReserva), ReservaDTO.class);
+        return resDTO;
+    }
+
+    @Override
+    public boolean cancelarReserva(long idReserva){
+        try {
+            reservaRepository.updateEstadoReserva(idReserva, "CANCELADA");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean cumplirReserva(long idReserva){
+        try {
+            reservaRepository.updateEstadoReserva(idReserva, "CUMPLIDA");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean expirarReserva(long idReserva){
+        try {
+            reservaRepository.updateEstadoReserva(idReserva, "EXPIRADA");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

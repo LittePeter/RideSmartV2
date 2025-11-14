@@ -1,15 +1,13 @@
 package co.edu.unbosque.ridesmartv2.viajeModule.service;
 
-
-import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.InfoFinViajeDTO;
-import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.InfoInitViajeDTO;
-
+import co.edu.unbosque.ridesmartv2.bicicletaModule.service.InterfaceBiciService;
+import co.edu.unbosque.ridesmartv2.estacionModule.model.entity.Estacion;
+import co.edu.unbosque.ridesmartv2.estacionModule.service.InterfaceEstacionService;
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.ViajeDTO;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Reserva;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Viaje;
-import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ReservaRepository;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ViajeRepository;
-import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,101 +17,130 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ViajeService implements ViajeServiceI {
+public class ViajeService implements InterfaceViajeService{
 
-    //TODO: Make use of this service
     @Autowired
-    private ReservaService reservaService;
+    private ViajeRepository viajeRepo;
+
     @Autowired
-    private ViajeRepository viajeRepository;
+    private InterfaceBiciService biciService;
+
     @Autowired
-    private ReservaRepository reservaRepository;
+    private InterfaceReservaService reservaService;
+
+    @Autowired
+    private InterfaceEstacionService estacionService;
+
     @Autowired
     private ModelMapper mp;
 
     @Override
-    public ViajeDTO iniciarViaje (InfoInitViajeDTO info) {
-        Reserva reserva = reservaRepository.findByIdReserva(info.getReserva());
-        if (reserva != null) {
-            if (reserva.getEstadoReserva().equalsIgnoreCase("ACTIVA")) {
-                Viaje viaje = new Viaje();
-                viaje.setUsuario(reserva.getUsuario());
-                viaje.setBicicleta(info.getBicicleta());
-                viaje.setEstacionInicio(reserva.getEstacion());
-                viaje.setFechaInicio(LocalDateTime.now());
-                viaje.setTipoViaje(reserva.getTipoViaje());
-                viaje.setEstado("INICIADO");
-                viajeRepository.save(viaje);
-                return mp.map(viaje, ViajeDTO.class);
-            } else {
-                return null;
-            }
-        }
-        return null;
-    }
-
     @Transactional
-    @Override
-    public void finalizarViaje (InfoFinViajeDTO info) {
+    public boolean iniciarViaje(long idReserva) {
 
-        long viajeId = info.getViajeId();
-        Viaje viaje = mp.map(obtenerViaje(info.getViajeId()), Viaje.class);
-        if (viaje != null){
-            if (viaje.getEstado().equals("INICIADO")) {
-                viajeRepository.actualizarEstado(viajeId, "PENDIENTE DE PAGO");
-                viajeRepository.actualizarEstacionFin(viajeId, info.getEstacionFin());
-                viajeRepository.actualizarFechaFin(viajeId, LocalDateTime.now());
-                long duracion = Duration.between(viaje.getFechaInicio(), viaje.getFechaFin()).toMinutes();
-                viajeRepository.actualizarDuracion(viajeId, duracion);
-                viajeRepository.actualizarPrecio(viajeId, calcularPrecio(viaje.getTipoViaje(), duracion));
-            }
+        Reserva reserva = mp.map(reservaService.getReserva(idReserva), Reserva.class);
+        LocalDateTime fechaExpiracion = reserva.getFechaReserva().plusMinutes(10);
+
+        if (fechaExpiracion.isBefore(LocalDateTime.now())) {
+            reservaService.cumplirReserva(reserva.getIdReserva());
+            biciService.desbloquearBicicleta(reserva.getIdBicicleta().getIdBicicleta());
+            biciService.usarBicicleta(reserva.getIdBicicleta().getIdBicicleta());
+
+            Viaje viaje = new Viaje();
+            viaje.setIdReserva(reserva);
+            viaje.setFechaInicio(LocalDateTime.now());
+            return  viajeRepo.save(viaje).equals(viaje);
+        } else {
+            reservaService.expirarReserva(reserva.getIdReserva());
+            biciService.habilitarBicicleta(reserva.getIdBicicleta().getIdBicicleta());
+            return false;
         }
-
-        //#TODO: Implementar pagos
     }
 
     @Override
-    public ViajeDTO obtenerViaje (long viajeId) {
-        return mp.map(viajeRepository.findByIdViaje(viajeId), ViajeDTO.class);
-    }
-    @Override
-    public List<ViajeDTO> obtenerViajes () {
-        return mp.mapList(viajeRepository.findAll(), ViajeDTO.class);
+    public ViajeDTO obtenerViaje(long idViaje) {
+        ViajeDTO viajeDTO = mp.map(viajeRepo.findById(idViaje), ViajeDTO.class);
+        return  viajeDTO;
     }
 
-    private double calcularPrecio(String tipoViaje, long duracion) {
+    @Override
+    public ViajeDTO obtenerViajePorReserva(long idReserva) {
+        ViajeDTO viaje = mp.map(viajeRepo.findByReserva(idReserva), ViajeDTO.class);
+        return viaje;
+    }
+
+    @Override
+    public List<ViajeDTO> obtenerViajePorEstacionFin(String idEstacion) {
+        List<ViajeDTO> viajes = mp.mapList(viajeRepo.findByEstacionFin(idEstacion), ViajeDTO.class);
+        return viajes;
+    }
+
+    @Override
+    public List<ViajeDTO> obtenerViajePorTipoViaje(String tipoViaje) {
+        List<ViajeDTO> viajes = mp.mapList(viajeRepo.findByTipoViaje(tipoViaje), ViajeDTO.class);
+        return viajes;
+    }
+
+    @Override
+    @Transactional
+    public boolean finalizarViaje(long idViaje, String estacionFin  ) {
+
+        Viaje viaje = mp.map(obtenerViaje(idViaje), Viaje.class);
+        Reserva reserva = mp.map(viaje.getIdReserva(), Reserva.class);
+        Long bici = reserva.getIdBicicleta().getIdBicicleta();
+
+        viaje.setFechaFin(LocalDateTime.now());
+        viaje.setIdEstacionFin(mp.map(estacionService.obtenerEstacion(estacionFin),  Estacion.class));
+
+        long duracion = Duration.between(viaje.getFechaInicio(), viaje.getFechaFin()).toMinutes();
+        String tipoViaje = reserva.getTipoViaje();
+
+        viaje.setDuracion((int)duracion);
+        viaje.setCosto(calcularCosto(tipoViaje, duracion));
+        //viaje.setPago(); implementar pagos
+
+        biciService.bloquearBicicleta(bici);
+        biciService.habilitarBicicleta(bici);
+        biciService.reubicarBicicleta(bici, estacionFin);
+
+        return viajeRepo.updateViaje(viaje).equals(viaje);
+    }
+
+    @Override
+    public Viaje getEntityById(long idViaje) {
+        return viajeRepo.findById(idViaje).orElse(null);
+    }
+
+    private double calcularCosto(String tipoViaje, long duracion) {
 
         double costo;
         double precioBase;
         double minAdicional;
-        double impuesto = 1.19;
 
         if (tipoViaje.equalsIgnoreCase("LARGO")) {
 
             precioBase = 25000;
             minAdicional = 1000;
-            if (duracion <= 75){
-                costo = precioBase * impuesto;
-            }
-            else {
-                int minExtra = (int)duracion - 75;
-                costo = (precioBase + (minAdicional * minExtra)) * impuesto;
+            if (duracion <= 75) {
+                costo = precioBase;
+            } else {
+                int minExtra = (int) duracion - 75;
+                costo = (precioBase + (minAdicional * minExtra));
             }
             return costo;
-        }
-        else if (tipoViaje.equalsIgnoreCase("ULT. MILLA")) {
+        } else if (tipoViaje.equalsIgnoreCase("ULT. MILLA")) {
 
             precioBase = 17500;
             minAdicional = 250;
-            if (duracion <= 45){
-                costo = precioBase * impuesto;
-            }
-            else {
-                int minExtra = (int)duracion - 45;
-                costo = (precioBase + (minAdicional * minExtra)) * impuesto;
+            if (duracion <= 45) {
+                costo = precioBase;
+            } else {
+                int minExtra = (int) duracion - 45;
+                costo = (precioBase + (minAdicional * minExtra));
             }
             return costo;
+        } else {
+            return 0;
         }
-        return 0;
     }
 }
