@@ -1,6 +1,6 @@
 package co.edu.unbosque.ridesmartv2.userModule.service;
 
-import co.edu.unbosque.ridesmartv2.userModule.USerCreatedEvent;
+import co.edu.unbosque.ridesmartv2.sharedEvents.UserCreatedEvent;
 import co.edu.unbosque.ridesmartv2.userModule.exception.UserNotFoundException;
 import co.edu.unbosque.ridesmartv2.userModule.model.dto.UserDto;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserServiceImp implements UserService {
 
@@ -36,10 +38,13 @@ public class UserServiceImp implements UserService {
         user.setPoints(0);
         user.setBalance(0);
         userRepo.save(user);
-        publisher.publishEvent(new USerCreatedEvent(
+
+        String token = UUID.randomUUID().toString();
+        publisher.publishEvent(new UserCreatedEvent(
                 user.getIdentification(),
                 user.getName(),
-                user.getMail()
+                user.getMail(),
+                token
         ));
         return userDto;
     }
