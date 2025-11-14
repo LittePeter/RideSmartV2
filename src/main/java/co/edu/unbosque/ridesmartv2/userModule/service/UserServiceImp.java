@@ -1,5 +1,6 @@
 package co.edu.unbosque.ridesmartv2.userModule.service;
 
+import co.edu.unbosque.ridesmartv2.userModule.events.USerCreatedEvent;
 import co.edu.unbosque.ridesmartv2.userModule.exception.UserNotFoundException;
 import co.edu.unbosque.ridesmartv2.userModule.model.dto.UserDto;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
@@ -8,6 +9,7 @@ import co.edu.unbosque.ridesmartv2.userModule.model.persistence.UserRepo;
 import jakarta.transaction.Transactional;
 import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +17,15 @@ import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
 
+    private final ApplicationEventPublisher publisher;
     @Autowired
     private UserRepo userRepo;
     @Autowired
     private ModelMapper mapper;
 
+    public UserServiceImp(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
     @Override
     @Transactional
     public UserDto create(UserDto userDto) {
@@ -30,6 +36,11 @@ public class UserServiceImp implements UserService {
         user.setPoints(0);
         user.setBalance(0);
         userRepo.save(user);
+        publisher.publishEvent(new USerCreatedEvent(
+                user.getIdentification(),
+                user.getName(),
+                user.getMail()
+        ));
         return userDto;
     }
 
