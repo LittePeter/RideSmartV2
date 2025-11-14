@@ -10,70 +10,71 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BicicletaService {
+public class BicicletaService implements InterfaceBiciService {
 
     @Autowired
     private BicicletaRepository biciRepository;
     @Autowired
     private ModelMapper mp;
 
+    @Override
     public void crearBicicleta(BicicletaDTO biciDTO) {
         Bicicleta bicicleta = mp.map(biciDTO, Bicicleta.class);
         biciRepository.save(bicicleta);
     }
 
+    @Override
     public List<BicicletaDTO> obtenerBicicletas() {
-        return biciRepository
-                .findAll()
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+        List<BicicletaDTO> bicicletas = mp.mapList(biciRepository.findAll(), BicicletaDTO.class);
+        return bicicletas;
     }
 
+    @Override
     public BicicletaDTO obtenerBicicleta(long id) {
         return mp.map(biciRepository.findById(id), BicicletaDTO.class);
     }
 
+    @Override
     public List<BicicletaDTO> obtenerBicicletasPorEstado(String estado) {
-        return biciRepository
-                .findByEstado(estado)
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+        return mp.mapList(biciRepository.findByEstado(estado), BicicletaDTO.class);
     }
 
-    public List<BicicletaDTO> obtenerBicicletasPorEstacion(long estacion) {
-        return biciRepository
-                .findByEstacion(estacion)
-                .stream()
-                .map(b -> mp.map(b, BicicletaDTO.class))
-                .toList();
+    @Override
+    public List<BicicletaDTO> obtenerBicicletasPorEstacion(String estacion) {
+        return mp.mapList(biciRepository.findByEstacion(estacion), BicicletaDTO.class);
     }
 
-    public void reubicarBicicleta(long idBicicleta, long estacion) {
+    @Override
+    public void reubicarBicicleta(long idBicicleta, String estacion) {
         biciRepository.updateEstacionBici(idBicicleta, estacion);
     }
 
+    @Override
     public void bloquearBicicleta(long idBicicleta) {
-        biciRepository.updateCandado(idBicicleta, "BLOQUEADO");
+        biciRepository.updateCandado(idBicicleta, true);
     }
 
+    @Override
     public void desbloquearBicicleta(long idBicicleta) {
-        biciRepository.updateCandado(idBicicleta, "DESBLOQUEADO");
+        biciRepository.updateCandado(idBicicleta, false);
     }
 
+    @Override
     public void habilitarBicicleta(long idBicicleta) {
         biciRepository.updateEstadoBici(idBicicleta, "DISPONIBLE");
     }
 
+    @Override
     public void inhabilitarBicicleta(long idBicicleta) {
         biciRepository.updateEstadoBici(idBicicleta, "NO DISPONIBLE");
     }
 
+    @Override
     public void usarBicicleta(long idBicicleta) {
         biciRepository.updateEstadoBici(idBicicleta, "EN USO");
     }
 
+    @Override
     public void recargarBicicleta(long idBicicleta, int newBateria) {
         biciRepository.updateBateria(idBicicleta, newBateria);
     }

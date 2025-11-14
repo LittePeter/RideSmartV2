@@ -2,6 +2,7 @@ package co.edu.unbosque.ridesmartv2.bicicletaModule.controller;
 
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto.BicicletaDTO;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.service.BicicletaService;
+import co.edu.unbosque.ridesmartv2.bicicletaModule.service.InterfaceBiciService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 public class BicicletaController {
 
     @Autowired
-    private BicicletaService bicicletaService;
+    private InterfaceBiciService bicicletaService;
 
     @PostMapping
     public ResponseEntity<?> crearBicicleta(@RequestBody BicicletaDTO biciDTO) {
@@ -71,7 +72,7 @@ public class BicicletaController {
     }
 
     @GetMapping("/estacion/{estacion}")
-    public ResponseEntity<?> obtenerBicicletasPorEstacion(@PathVariable long estacion) {
+    public ResponseEntity<?> obtenerBicicletasPorEstacion(@PathVariable String estacion) {
         try {
             List<BicicletaDTO> bicicletas = bicicletaService.obtenerBicicletasPorEstacion(estacion);
             if (bicicletas.isEmpty()) {
@@ -85,7 +86,7 @@ public class BicicletaController {
     }
 
     @PutMapping("/{id}/reubicar/{estacion}")
-    public ResponseEntity<?> reubicarBicicleta(@PathVariable long id, @PathVariable long estacion) {
+    public ResponseEntity<?> reubicarBicicleta(@PathVariable long id, @PathVariable String estacion) {
         try {
             bicicletaService.reubicarBicicleta(id, estacion);
             return ResponseEntity.ok("Bicicleta reubicada correctamente.");

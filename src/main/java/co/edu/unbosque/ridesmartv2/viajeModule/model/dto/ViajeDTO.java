@@ -1,5 +1,7 @@
 package co.edu.unbosque.ridesmartv2.viajeModule.model.dto;
 
+import co.edu.unbosque.ridesmartv2.estacionModule.model.dto.EstacionDTO;
+import co.edu.unbosque.ridesmartv2.pagoModule.model.dto.PagoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,15 +14,11 @@ import java.time.LocalDateTime;
 public class ViajeDTO {
 
     private long idViaje;
-    private long usuario;
-    private long bicicleta;
-    private String tipoViaje;
-    private long estacionInicio;
-    private long estacionFin;
+    private ReservaDTO idReserva;
+    private EstacionDTO idEstacionFin;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private int duracion;
-    private double precio;
-    private String estado;
-    private long pago;
+    private double costo;
+    private PagoDTO idPago;
 }
