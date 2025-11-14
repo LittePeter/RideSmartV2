@@ -5,10 +5,9 @@ import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.InfoReservaDTO;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.dto.ReservaDTO;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Reserva;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ReservaRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,9 +53,6 @@ public class ReservaService implements ReservaServiceI{
     }
 
     public List<ReservaDTO> obtenerReservas() {
-        return reservaRepository
-                .findAll()
-                .stream()
-                .map(r -> mp.map(r,ReservaDTO.class)).toList();
+        return mp.mapList(reservaRepository.findAll(), ReservaDTO.class);
     }
 }

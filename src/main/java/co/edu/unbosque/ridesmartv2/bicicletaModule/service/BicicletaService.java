@@ -3,7 +3,7 @@ package co.edu.unbosque.ridesmartv2.bicicletaModule.service;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto.BicicletaDTO;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.entity.Bicicleta;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.persistence.BicicletaRepository;
-import org.modelmapper.ModelMapper;
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
