@@ -1,6 +1,6 @@
 package co.edu.unbosque.ridesmartv2.userModule.service;
 
-import co.edu.unbosque.ridesmartv2.userModule.events.USerCreatedEvent;
+import co.edu.unbosque.ridesmartv2.userModule.USerCreatedEvent;
 import co.edu.unbosque.ridesmartv2.userModule.exception.UserNotFoundException;
 import co.edu.unbosque.ridesmartv2.userModule.model.dto.UserDto;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
