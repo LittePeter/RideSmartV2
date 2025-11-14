@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface ViajeRepository extends JpaRepository<Viaje, Long> {
 
-    Viaje findByReserva(long idReserva);
+    Viaje findByIdReserva_IdReserva(long idReserva);
     List<Viaje> findByTipoViaje(String tipoViaje);
-    List<Viaje> findByEstacionFin(String idEstacionFin);
-    Viaje updateViaje(Viaje viaje);
+    List<Viaje> findByIdEstacionFin_IdEstacion(String idEstacionFin);
+    //Viaje updateViaje(Viaje viaje);
 }

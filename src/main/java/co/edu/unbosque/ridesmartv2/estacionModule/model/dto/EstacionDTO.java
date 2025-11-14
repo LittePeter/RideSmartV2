@@ -13,6 +13,7 @@ import java.util.List;
 public class EstacionDTO {
 
     private String idEstacion;
+    private String nombre;
     private String categoria;
     private int capacidad;
     private double latitud;

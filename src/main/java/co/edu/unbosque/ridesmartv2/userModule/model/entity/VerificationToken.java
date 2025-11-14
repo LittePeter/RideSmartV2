@@ -18,6 +18,6 @@ public class VerificationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String token;
-    private Long userId;
+    private String userId;
     private LocalDateTime expiration;
 }

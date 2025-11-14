@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    List <Reserva> findByUser(String idUser);
-    List <Reserva> findByEstacion(String idEstacion);
-    List <Reserva> findByBicicleta(long idBicicleta);
+    List<Reserva> findByIdUsuario_Identification(String identification);
+    List <Reserva> findByIdEstacion_IdEstacion(String idEstacion);
+    List <Reserva> findByIdBicicleta_IdBicicleta(long idBicicleta);
 
     @Transactional
     @Modifying

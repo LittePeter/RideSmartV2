@@ -27,9 +27,9 @@ public class Viaje {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idEstacionFin")
     private Estacion idEstacionFin;
-
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
+    private String tipoViaje;
     private int duracion;
     private double costo;
     @OneToOne(mappedBy = "idViaje")

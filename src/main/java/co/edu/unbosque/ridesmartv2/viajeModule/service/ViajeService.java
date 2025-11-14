@@ -65,13 +65,13 @@ public class ViajeService implements InterfaceViajeService{
 
     @Override
     public ViajeDTO obtenerViajePorReserva(long idReserva) {
-        ViajeDTO viaje = mp.map(viajeRepo.findByReserva(idReserva), ViajeDTO.class);
+        ViajeDTO viaje = mp.map(viajeRepo.findByIdReserva_IdReserva(idReserva), ViajeDTO.class);
         return viaje;
     }
 
     @Override
     public List<ViajeDTO> obtenerViajePorEstacionFin(String idEstacion) {
-        List<ViajeDTO> viajes = mp.mapList(viajeRepo.findByEstacionFin(idEstacion), ViajeDTO.class);
+        List<ViajeDTO> viajes = mp.mapList(viajeRepo.findByIdEstacionFin_IdEstacion(idEstacion), ViajeDTO.class);
         return viajes;
     }
 
@@ -97,13 +97,13 @@ public class ViajeService implements InterfaceViajeService{
 
         viaje.setDuracion((int)duracion);
         viaje.setCosto(calcularCosto(tipoViaje, duracion));
-        //viaje.setPago(); implementar pagos
+        //TODO:viaje.setPago(); implementar pagos
 
         biciService.bloquearBicicleta(bici);
         biciService.habilitarBicicleta(bici);
         biciService.reubicarBicicleta(bici, estacionFin);
-
-        return viajeRepo.updateViaje(viaje).equals(viaje);
+        viajeRepo.save(viaje);
+        return true;
     }
 
     @Override
