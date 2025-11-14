@@ -5,6 +5,8 @@ import co.edu.unbosque.ridesmartv2.userModule.exception.UserNotFoundException;
 import co.edu.unbosque.ridesmartv2.userModule.model.dto.UserDto;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.User;
+import co.edu.unbosque.ridesmartv2.userModule.model.entity.VerificationToken;
+import co.edu.unbosque.ridesmartv2.userModule.model.persistence.VerificationTokenRepo;
 import co.edu.unbosque.ridesmartv2.userModule.model.persistence.UserRepo;
 import jakarta.transaction.Transactional;
 import co.edu.unbosque.ridesmartv2.config.ModelMapper;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +25,8 @@ public class UserServiceImp implements UserService {
     private final ApplicationEventPublisher publisher;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private VerificationTokenRepo verificationTokenRepo;
     @Autowired
     private ModelMapper mapper;
 
@@ -34,12 +39,19 @@ public class UserServiceImp implements UserService {
         
         User user = mapper.map(userDto, User.class);
         user.setRole("USER");
-        user.setStatus(AccountState.PENDING);
+        user.setStatus( AccountState.PENDING);
         user.setPoints(0);
         user.setBalance(0);
+        user.setRole("USER");
         userRepo.save(user);
 
         String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+        verificationToken.setUserId(user.getIdentification());
+        verificationToken.setExpiration(LocalDateTime.now().plusMinutes(10));
+        verificationTokenRepo.save(verificationToken);
+
         publisher.publishEvent(new UserCreatedEvent(
                 user.getIdentification(),
                 user.getName(),
@@ -51,7 +63,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public Optional<UserDto> findById(String userId) {
+    public Optional<UserDto> findById(Long userId) {
         UserDto user = mapper.map(userRepo.findById(userId), UserDto.class);
         return Optional.ofNullable(user);
     }
@@ -65,9 +77,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         if (!userRepo.existsById(id)) {
-            throw new UserNotFoundException("Usuario no encontrado");
+            throw new UserNotFoundException(id);
         }
         userRepo.deleteById(id);
     }
@@ -76,4 +88,13 @@ public class UserServiceImp implements UserService {
     public List<UserDto> getAllUserDtoList() {
         return mapper.mapList(userRepo.findAll(), UserDto.class);
     }
+
+    @Override
+    public void activateUser(long identification) {
+        User user = mapper.map(findById(identification), User.class);
+        user.setStatus(AccountState.ACTIVE);
+        userRepo.save(user);
+    }
+
+
 }
