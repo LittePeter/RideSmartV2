@@ -6,7 +6,7 @@ import co.edu.unbosque.ridesmartv2.userModule.model.entity.AccountState;
 import co.edu.unbosque.ridesmartv2.userModule.model.entity.User;
 import co.edu.unbosque.ridesmartv2.userModule.model.persistence.UserRepo;
 import jakarta.transaction.Transactional;
-import org.modelmapper.ModelMapper;
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +58,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<UserDto> getAllUserDtoList() {
-        return userRepo
-                .findAll()
-                .stream()
-                .map(user -> mapper.map(user,UserDto.class)).toList();
+        return mapper.mapList(userRepo.findAll(), UserDto.class);
     }
 }

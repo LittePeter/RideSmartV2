@@ -9,7 +9,7 @@ import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Reserva;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.entity.Viaje;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ReservaRepository;
 import co.edu.unbosque.ridesmartv2.viajeModule.model.persistence.ViajeRepository;
-import org.modelmapper.ModelMapper;
+import co.edu.unbosque.ridesmartv2.config.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,10 +78,7 @@ public class ViajeService implements ViajeServiceI {
     }
     @Override
     public List<ViajeDTO> obtenerViajes () {
-        return viajeRepository
-                .findAll()
-                .stream()
-                .map(v -> mp.map(v, ViajeDTO.class)).toList();
+        return mp.mapList(viajeRepository.findAll(), ViajeDTO.class);
     }
 
     private double calcularPrecio(String tipoViaje, long duracion) {
