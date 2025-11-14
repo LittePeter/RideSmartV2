@@ -5,6 +5,7 @@ import co.edu.unbosque.ridesmartv2.sharedEvents.UserCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,7 @@ public class EmailEventListener {
     @Autowired
     private final EmailService emailService;
 
+    @Async
     @EventListener
     public void handleUserCreated(UserCreatedEvent event)
     {
