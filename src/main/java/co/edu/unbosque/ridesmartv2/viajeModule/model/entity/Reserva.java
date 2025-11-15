@@ -34,6 +34,6 @@ public class Reserva {
     private LocalDateTime fechaReserva;
     private String estadoReserva;
 
-    @OneToOne(mappedBy = "idViaje")
+    @OneToOne(mappedBy = "idReserva")
     private Viaje viaje;
 }

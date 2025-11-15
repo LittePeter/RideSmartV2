@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserDto> getUser(@RequestParam Long id) {
+    public ResponseEntity<UserDto> getUser(@RequestParam String id) {
         Optional<UserDto> getUser = userService.findById(id);
         if (getUser.isEmpty()) throw new UserNotFoundException(id);
         return ResponseEntity.ok(getUser.get());
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
         userService.delete(id);
         return ResponseEntity.ok().build();
     }

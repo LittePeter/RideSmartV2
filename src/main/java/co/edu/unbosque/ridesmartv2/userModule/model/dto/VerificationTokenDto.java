@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public class VerificationTokenDto {
     private Long id;
     private String token;
-    private Long userId;
+    private String userId;
     private LocalDateTime expiration;
 }

@@ -63,7 +63,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public Optional<UserDto> findById(Long userId) {
+    public Optional<UserDto> findById(String userId) {
         UserDto user = mapper.map(userRepo.findById(userId), UserDto.class);
         return Optional.ofNullable(user);
     }
@@ -77,7 +77,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         if (!userRepo.existsById(id)) {
             throw new UserNotFoundException(id);
         }
@@ -90,7 +90,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void activateUser(long identification) {
+    public void activateUser(String identification) {
         User user = mapper.map(findById(identification), User.class);
         user.setStatus(AccountState.ACTIVE);
         userRepo.save(user);

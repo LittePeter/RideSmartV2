@@ -18,6 +18,7 @@ public class ViajeDTO {
     private EstacionDTO idEstacionFin;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
+    private String tipoViaje;
     private int duracion;
     private double costo;
     private PagoDTO idPago;

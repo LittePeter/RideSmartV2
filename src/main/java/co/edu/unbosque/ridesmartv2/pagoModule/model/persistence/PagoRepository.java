@@ -12,14 +12,14 @@ import java.util.List;
 @Repository
 public interface PagoRepository extends JpaRepository<Pago, Long> {
 
-    Pago findByIdViaje(long idViaje);
+    Pago findByIdViaje_IdViaje(long idViaje);
     List<Pago> findAll();
     Pago findById(long id);
     Pago findByIdStripe(String idStripe);
-    Pago updatePago(Pago pago);
+    //Pago updatePago(Pago pago);
 
     @Transactional
     @Modifying
-    @Query("UPDATE Pago p SET P.estado = :estado WHERE p.idPago = :idPago")
+    @Query("UPDATE Pago p SET p.estado = :estado WHERE p.idPago = :idPago")
     Pago updateEstadoPago(long idPago, String estado);
 }

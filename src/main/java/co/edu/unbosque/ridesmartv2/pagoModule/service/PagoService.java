@@ -53,7 +53,7 @@ public class PagoService implements InterfacePagoService {
 
     @Override
     public PagoDTO getPagoByViaje(long viaje) {
-        PagoDTO pagoDTO = mp.map(pagoRepo.findByIdViaje(viaje), PagoDTO.class);
+        PagoDTO pagoDTO = mp.map(pagoRepo.findByIdViaje_IdViaje(viaje), PagoDTO.class);
         return pagoDTO;
     }
 
@@ -84,7 +84,7 @@ public class PagoService implements InterfacePagoService {
         pago.setFecha(LocalDateTime.now());
 
 
-        return pagoRepo.updatePago(pago).equals(pago);
+        return pagoRepo.updateEstadoPago(idPago,pago.getEstado()).equals(pago);
     }
 
     public PaymentIntent solicitudPago(long valor, long idViaje) throws StripeException {

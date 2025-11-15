@@ -24,7 +24,7 @@ public class Bicicleta {
     private String estado;
     private int bateria;
     private boolean candado;
-
+    private String estacion;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idEstacion")
     private Estacion idEstacion;

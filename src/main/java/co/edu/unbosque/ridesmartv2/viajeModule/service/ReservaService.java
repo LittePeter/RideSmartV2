@@ -29,8 +29,8 @@ public class ReservaService implements  InterfaceReservaService {
     public boolean createReserva(ReservaDTO reservaDTO){
 
         boolean isAbleToCreate = false;
-        List<Reserva> reservasByUser = getReservasByUsuario(reservaDTO.getIdUsuario().getId());
-        List<Reserva> resActivas = reservasByUser.stream()
+        List<ReservaDTO> reservasByUser = getReservasByUsuario(String.valueOf(reservaDTO.getIdUsuario().getIdentification()));
+        List<ReservaDTO> resActivas = reservasByUser.stream()
                 .filter(r -> r.getEstadoReserva().equalsIgnoreCase("CONFIRMADA"))
                 .toList();
 
@@ -71,19 +71,19 @@ public class ReservaService implements  InterfaceReservaService {
 
     @Override
     public List<ReservaDTO> getReservasByUsuario(String idUsuario){
-        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByUser(idUsuario), ReservaDTO.class);
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByIdUsuario_Identification(idUsuario), ReservaDTO.class);
         return resDTO;
     }
 
     @Override
     public List<ReservaDTO> getReservasByBicicleta(long bicicleta){
-        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByBicicleta(bicicleta), ReservaDTO.class);
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByIdBicicleta_IdBicicleta(bicicleta), ReservaDTO.class);
         return resDTO;
     }
 
     @Override
     public List<ReservaDTO> getReservasByEstacion(String estacion){
-        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByEstacion(estacion), ReservaDTO.class);
+        List <ReservaDTO> resDTO = mp.mapList(reservaRepository.findByIdEstacion_IdEstacion(estacion), ReservaDTO.class);
         return resDTO;
     }
 
