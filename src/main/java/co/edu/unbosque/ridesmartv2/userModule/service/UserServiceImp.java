@@ -18,7 +18,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+/**
+ * Implementación del servicio de gestión de usuarios.
+ * <p>
+ * Coordina la lógica de negocio para el registro, verificación y manejo de usuarios.
+ * Al crear un nuevo usuario, genera un token de verificación y publica un evento
+ * para que el módulo de correo envíe el enlace de confirmación.
+ * </p>
+ */
 @Service
 public class UserServiceImp implements UserService {
 

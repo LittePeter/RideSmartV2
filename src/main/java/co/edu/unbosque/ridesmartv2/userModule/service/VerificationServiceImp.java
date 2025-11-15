@@ -8,7 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+/**
+ * Implementación del servicio de gestión de tokens de verificación.
+ * <p>
+ * Se comunica con el repositorio para buscar y eliminar tokens.
+ * </p>
+ */
 @Service
 public class VerificationServiceImp implements VerificationService {
     @Autowired
