@@ -1,7 +1,6 @@
 package co.edu.unbosque.ridesmartv2.estacionModule.controller;
 
 import co.edu.unbosque.ridesmartv2.estacionModule.model.dto.EstacionDTO;
-import co.edu.unbosque.ridesmartv2.estacionModule.service.EstacionService;
 import co.edu.unbosque.ridesmartv2.estacionModule.service.InterfaceEstacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador REST para la gestión de estaciones.
+ * <p>
+ * Expone endpoints para crear, consultar, habilitar y deshabilitar estaciones.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/estaciones")
 public class EstacionController {
@@ -17,6 +22,12 @@ public class EstacionController {
     @Autowired
     private InterfaceEstacionService estacionService;
 
+    /**
+     * Crea una nueva estación en el sistema.
+     *
+     * @param estacionDTO los datos de la estación a crear.
+     * @return un mensaje de éxito (201) o error (500) según el resultado.
+     */
     @PostMapping
     public ResponseEntity<?> crearEstacion(@RequestBody EstacionDTO estacionDTO) {
         try {
@@ -28,6 +39,12 @@ public class EstacionController {
         }
     }
 
+    /**
+     * Obtiene los detalles de una estación por su ID.
+     *
+     * @param idEstacion el ID de la estación.
+     * @return el {@link EstacionDTO} (200) o 404 si no se encuentra.
+     */
     @GetMapping("/{idEstacion}")
     public ResponseEntity<?> obtenerEstacion(@PathVariable String idEstacion) {
         try {
@@ -43,7 +60,12 @@ public class EstacionController {
         }
     }
 
-
+    /**
+     * Obtiene todas las estaciones de una categoría específica.
+     *
+     * @param categoria la categoría de las estaciones.
+     * @return una lista de {@link EstacionDTO} o 204 si está vacía.
+     */
     @GetMapping("/categoria/{categoria}")
     public ResponseEntity<?> obtenerEstacionesPorCategoria(@PathVariable String categoria) {
         try {
@@ -58,6 +80,12 @@ public class EstacionController {
         }
     }
 
+    /**
+     * Obtiene todas las estaciones con un estado específico.
+     *
+     * @param estado el estado de las estaciones.
+     * @return una lista de {@link EstacionDTO} o 204 si está vacía.
+     */
     @GetMapping("/estado/{estado}")
     public ResponseEntity<?> obtenerEstacionesPorEstado(@PathVariable String estado) {
         try {
@@ -72,6 +100,12 @@ public class EstacionController {
         }
     }
 
+    /**
+     * Habilita una estación cambiando su estado a "DISPONIBLE".
+     *
+     * @param idEstacion el ID de la estación a habilitar.
+     * @return un mensaje de éxito o error.
+     */
     @PutMapping("/{idEstacion}/habilitar")
     public ResponseEntity<?> habilitarEstacion(@PathVariable String idEstacion) {
         try {
@@ -83,6 +117,12 @@ public class EstacionController {
         }
     }
 
+    /**
+     * Deshabilita una estación cambiando su estado a "NO DISPONIBLE".
+     *
+     * @param idEstacion el ID de la estación a deshabilitar.
+     * @return un mensaje de éxito o error.
+     */
     @PutMapping("/{idEstacion}/deshabilitar")
     public ResponseEntity<?> desHabilitarEstacion(@PathVariable String idEstacion) {
         try {

@@ -9,7 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+/**
+ * Representa una estación del sistema RideSmart donde se ubican las bicicletas.
+ * <p>
+ * Cada estación tiene un identificador único (ID de tipo {@code String}), nombre, categoría,
+ * ubicación geográfica (latitud/longitud), estado y capacidad.
+ * Está relacionada con listas de {@link Bicicleta}, {@link Reserva} y {@link Viaje}.
+ * </p>
+ */
 @Entity
 @Table (name = "Estacion")
 @Data

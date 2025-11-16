@@ -13,7 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * Implementación del servicio de gestión de reservas.
+ * <p>
+ * Valida que un usuario no tenga reservas activas, selecciona una bicicleta disponible
+ * con batería suficiente, y gestiona los estados de las reservas.
+ * </p>
+ */
 @Service
 public class ReservaService implements  InterfaceReservaService {
 

@@ -15,7 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * Implementación del servicio de gestión de viajes.
+ * <p>
+ * Coordina la lógica de negocio para iniciar y finalizar viajes, calcular costos,
+ * y gestionar el estado de las bicicletas y reservas.
+ * </p>
+ */
 @Service
 public class ViajeService implements InterfaceViajeService{
 

@@ -7,7 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Objeto de transferencia de datos (DTO) para la entidad Viaje.
+ * <p>
+ * Se utiliza para exponer información de un viaje a través de la API REST,
+ * sin exponer directamente la entidad ni sus relaciones JPA.
+ * </p>
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

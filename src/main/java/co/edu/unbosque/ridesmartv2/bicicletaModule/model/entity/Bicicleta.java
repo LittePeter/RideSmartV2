@@ -8,7 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+/**
+ * Representa una bicicleta del sistema RideSmart.
+ * <p>
+ * Cada bicicleta tiene un estado, nivel de batería, candado y está asociada a una estación.
+ * Está relacionada con reservas a través de una relación {@code @OneToMany}.
+ * </p>
+ */
 @Entity
 @Table (name = "Bicicleta")
 @Data

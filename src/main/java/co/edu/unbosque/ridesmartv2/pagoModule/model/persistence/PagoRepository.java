@@ -8,7 +8,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * Repositorio de datos para la entidad {@link Pago}.
+ * <p>
+ * Extiende {@code JpaRepository} y define métodos personalizados para consultas específicas:
+ * por viaje, por ID de Stripe y actualización de estado.
+ * </p>
+ */
 @Repository
 public interface PagoRepository extends JpaRepository<Pago, Long> {
 

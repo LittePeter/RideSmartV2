@@ -7,7 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
+/**
+ * Listener de eventos asíncrono que responde al evento {@link co.edu.unbosque.ridesmartv2.sharedEvents.UserCreatedEvent}.
+ * <p>
+ * Al detectar la creación de un nuevo usuario, envía un correo de verificación
+ * con un enlace que contiene un token de activación.
+ * </p>
+ */
 @Component
 @RequiredArgsConstructor
 public class EmailEventListener {

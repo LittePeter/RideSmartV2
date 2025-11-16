@@ -9,7 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Representa una reserva de bicicleta realizada por un usuario en una estación específica.
+ * <p>
+ * Una reserva puede tener diferentes estados: CONFIRMADA, CANCELADA, CUMPLIDA o EXPIRADA.
+ * Está vinculada a un {@link User}, una {@link Estacion}, una {@link Bicicleta} y opcionalmente a un {@link Viaje}.
+ * </p>
+ */
 @Entity
 @Table(name = "Reserva")
 @Data

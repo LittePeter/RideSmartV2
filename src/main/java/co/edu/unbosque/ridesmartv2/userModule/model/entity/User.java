@@ -1,10 +1,22 @@
 package co.edu.unbosque.ridesmartv2.userModule.model.entity;
-
+/**
+ * Representa a un usuario del sistema RideSmart.
+ * <p>
+ * Esta entidad se mapea a la tabla {@code biker} en la base de datos.
+ * El identificador único es el campo {@code identification} (tipo long).
+ * </p>
+ */
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * Representa a un usuario del sistema RideSmart.
+ * <p>
+ * Esta entidad se mapea a la tabla {@code biker} en la base de datos.
+ * El identificador único es el campo {@code identification} (tipo long).
+ * </p>
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

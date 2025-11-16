@@ -8,7 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Objeto de transferencia de datos (DTO) para la entidad Reserva.
+ * <p>
+ * Incluye referencias a DTOs relacionados: usuario, estación y bicicleta.
+ * </p>
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

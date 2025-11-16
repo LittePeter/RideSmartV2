@@ -7,7 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Representa un pago asociado a un viaje en el sistema RideSmart.
+ * <p>
+ * Contiene información sobre el costo, impuestos, conversión a USD y estado del pago.
+ * Está vinculado al viaje mediante una relación {@code @OneToOne}.
+ * </p>
+ */
 @Entity
 @Table(name = "Pago")
 @Data

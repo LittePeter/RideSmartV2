@@ -8,7 +8,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * Repositorio de datos para la entidad {@link Reserva}.
+ * <p>
+ * Proporciona operaciones CRUD estándar y métodos personalizados para consultar reservas
+ * por usuario, bicicleta o estación. Incluye una consulta JPQL para actualizar el estado de una reserva.
+ * </p>
+ */
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 

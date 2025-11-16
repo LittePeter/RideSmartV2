@@ -4,7 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
+/**
+ * Implementación del servicio de envío de correos electrónicos.
+ * <p>
+ * Utiliza {@link org.springframework.mail.javamail.JavaMailSender} para enviar mensajes
+ * de texto simples mediante el protocolo SMTP.
+ * </p>
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {

@@ -4,7 +4,13 @@ import co.edu.unbosque.ridesmartv2.pagoModule.client.CurrencyClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * Servicio para manejar la conversión de moneda (COP a USD).
+ * <p>
+ * Utiliza {@link CurrencyClient} para obtener tasas en tiempo real y almacena
+ * una tasa local como respaldo en caso de fallos en la API externa.
+ * </p>
+ */
 @Slf4j
 @Service
 public class CurrencyService {

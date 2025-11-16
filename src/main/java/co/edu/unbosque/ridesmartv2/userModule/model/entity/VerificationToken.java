@@ -7,7 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Token de verificación temporal asociado a un usuario durante el registro.
+ * <p>
+ * Se utiliza para confirmar la dirección de correo electrónico del usuario.
+ * Cada token tiene una expiración de 10 minutos desde su creación.
+ * </p>
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

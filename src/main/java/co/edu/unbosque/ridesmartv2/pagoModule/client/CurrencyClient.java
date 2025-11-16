@@ -6,7 +6,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
-
+/**
+ * Cliente HTTP para consumir la API externa de tasas de cambio (ExchangeRate.host).
+ * <p>
+ * Se utiliza para obtener la tasa de conversión de COP a USD en tiempo real.
+ * </p>
+ */
 @Slf4j
 @Component
 public class CurrencyClient {

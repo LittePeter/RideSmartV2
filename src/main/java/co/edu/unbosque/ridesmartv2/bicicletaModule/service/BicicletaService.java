@@ -9,6 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementación del servicio de gestión de bicicletas.
+ * <p>
+ * Coordina la lógica de negocio para crear, consultar y actualizar bicicletas,
+ * y delega las operaciones de persistencia al repositorio.
+ * </p>
+ */
 @Service
 public class BicicletaService implements InterfaceBiciService {
 
