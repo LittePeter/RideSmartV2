@@ -8,7 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * Implementación del servicio de gestión de estaciones.
+ * <p>
+ * Coordina la lógica de negocio para crear, consultar y actualizar estaciones.
+ * Incluye una lógica básica para la generación de órdenes de redistribución
+ * cuando una estación no tiene bicicletas.
+ * </p>
+ */
 @Service
 public class EstacionService implements InterfaceEstacionService {
 
