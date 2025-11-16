@@ -1,7 +1,6 @@
 package co.edu.unbosque.ridesmartv2.bicicletaModule.controller;
 
 import co.edu.unbosque.ridesmartv2.bicicletaModule.model.dto.BicicletaDTO;
-import co.edu.unbosque.ridesmartv2.bicicletaModule.service.BicicletaService;
 import co.edu.unbosque.ridesmartv2.bicicletaModule.service.InterfaceBiciService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /**
  * Controlador REST para la gestión de bicicletas.
  * <p>
@@ -22,6 +22,7 @@ public class BicicletaController {
 
     @Autowired
     private InterfaceBiciService bicicletaService;
+
     /**
      * Crea una nueva bicicleta en el sistema.
      *
@@ -38,6 +39,7 @@ public class BicicletaController {
                     .body("Error al crear la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene la lista de todas las bicicletas del sistema.
      *
@@ -56,6 +58,7 @@ public class BicicletaController {
                     .body("Error al obtener las bicicletas: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene una bicicleta por su ID.
      *
@@ -76,6 +79,7 @@ public class BicicletaController {
                     .body("Error al obtener la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene todas las bicicletas con un estado específico.
      *
@@ -95,6 +99,7 @@ public class BicicletaController {
                     .body("Error al filtrar bicicletas por estado: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene todas las bicicletas asociadas a una estación específica.
      *
@@ -114,10 +119,11 @@ public class BicicletaController {
                     .body("Error al filtrar bicicletas por estación: " + e.getMessage());
         }
     }
+
     /**
      * Reubica una bicicleta a una estación diferente.
      *
-     * @param id el ID de la bicicleta.
+     * @param id       el ID de la bicicleta.
      * @param estacion el nuevo ID de la estación.
      * @return un mensaje de éxito o error.
      */
@@ -131,6 +137,7 @@ public class BicicletaController {
                     .body("Error al reubicar la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Bloquea el candado de una bicicleta.
      *
@@ -147,6 +154,7 @@ public class BicicletaController {
                     .body("Error al bloquear la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Desbloquea el candado de una bicicleta.
      *
@@ -163,6 +171,7 @@ public class BicicletaController {
                     .body("Error al desbloquear la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Habilita una bicicleta (estado = "DISPONIBLE").
      *
@@ -179,6 +188,7 @@ public class BicicletaController {
                     .body("Error al habilitar la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Inhabilita una bicicleta (estado = "NO DISPONIBLE").
      *
@@ -195,6 +205,7 @@ public class BicicletaController {
                     .body("Error al inhabilitar la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Marca una bicicleta como "EN USO".
      *
@@ -211,10 +222,11 @@ public class BicicletaController {
                     .body("Error al usar la bicicleta: " + e.getMessage());
         }
     }
+
     /**
      * Actualiza el nivel de batería de una bicicleta.
      *
-     * @param id el ID de la bicicleta.
+     * @param id    el ID de la bicicleta.
      * @param nivel el nuevo nivel de batería (0-100).
      * @return un mensaje de éxito o error.
      */

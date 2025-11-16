@@ -3,7 +3,6 @@ package co.edu.unbosque.ridesmartv2.pagoModule.controller;
 import co.edu.unbosque.ridesmartv2.pagoModule.model.dto.PagoDTO;
 import co.edu.unbosque.ridesmartv2.pagoModule.service.InterfacePagoService;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,7 @@ public class PagoController {
 
     @Autowired
     private InterfacePagoService pagoService;
+
     /**
      * Crea un registro de pago pendiente para un viaje.
      *
@@ -37,6 +37,7 @@ public class PagoController {
 
         return ResponseEntity.ok("Pago generado correctamente para el viaje " + idViaje);
     }
+
     /**
      * Inicia el proceso de pago con Stripe para un pago existente.
      *
@@ -60,6 +61,7 @@ public class PagoController {
             return ResponseEntity.badRequest().body("Error Stripe: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene un pago por su ID.
      *
@@ -77,6 +79,7 @@ public class PagoController {
 
         return ResponseEntity.ok(pago);
     }
+
     /**
      * Obtiene el pago asociado a un viaje.
      *
@@ -94,6 +97,7 @@ public class PagoController {
 
         return ResponseEntity.ok(pago);
     }
+
     /**
      * Obtiene un pago por su ID de Stripe.
      *
@@ -111,6 +115,7 @@ public class PagoController {
 
         return ResponseEntity.ok(pago);
     }
+
     /**
      * Obtiene todos los pagos del sistema.
      *

@@ -1,7 +1,6 @@
 package co.edu.unbosque.ridesmartv2.estacionModule.controller;
 
 import co.edu.unbosque.ridesmartv2.estacionModule.model.dto.EstacionDTO;
-import co.edu.unbosque.ridesmartv2.estacionModule.service.EstacionService;
 import co.edu.unbosque.ridesmartv2.estacionModule.service.InterfaceEstacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /**
  * Controlador REST para la gestión de estaciones.
  * <p>
@@ -21,6 +21,7 @@ public class EstacionController {
 
     @Autowired
     private InterfaceEstacionService estacionService;
+
     /**
      * Crea una nueva estación en el sistema.
      *
@@ -37,6 +38,7 @@ public class EstacionController {
                     .body("Error al crear la estación: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene los detalles de una estación por su ID.
      *
@@ -77,6 +79,7 @@ public class EstacionController {
                     .body("Error al obtener estaciones por categoría: " + e.getMessage());
         }
     }
+
     /**
      * Obtiene todas las estaciones con un estado específico.
      *
@@ -96,6 +99,7 @@ public class EstacionController {
                     .body("Error al obtener estaciones por estado: " + e.getMessage());
         }
     }
+
     /**
      * Habilita una estación cambiando su estado a "DISPONIBLE".
      *
@@ -112,6 +116,7 @@ public class EstacionController {
                     .body("Error al habilitar la estación: " + e.getMessage());
         }
     }
+
     /**
      * Deshabilita una estación cambiando su estado a "NO DISPONIBLE".
      *

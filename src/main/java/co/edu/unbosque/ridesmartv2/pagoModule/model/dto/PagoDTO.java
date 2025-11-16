@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 /**
- * Objeto de transferencia de datos (DTO) para la entidad {@link Pago}.
+ * Objeto de transferencia de datos (DTO) para la entidad Pago.
  * <p>
  * Se utiliza para exponer información de un pago a través de la API REST,
  * sin exponer directamente la entidad ni sus relaciones JPA.

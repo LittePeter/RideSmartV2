@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 /**
- * Objeto de transferencia de datos (DTO) para la entidad {@link Estacion}.
+ * Objeto de transferencia de datos (DTO) para la entidad Estacion.
  * <p>
  * Se utiliza para exponer información de una estación a través de la API REST,
  * incluyendo una lista de bicicletas disponibles en formato DTO.

@@ -23,7 +23,7 @@ public interface InterfaceEstacionService {
     /**
      * Obtiene todas las estaciones de una categoría específica.
      *
-     * @param categoria la categoría de las estaciones (por ejemplo, "URBANA", "RURAL").
+     * @param Categoria la categoría de las estaciones (por ejemplo, "URBANA", "RURAL").
      * @return una lista de {@link EstacionDTO}.
      */
     List<EstacionDTO> obtenerEstacionPorCategoria(String Categoria);

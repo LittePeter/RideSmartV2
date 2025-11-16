@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 /**
- * Objeto de transferencia de datos (DTO) para la entidad {@link Bicicleta}.
+ * Objeto de transferencia de datos (DTO) para la entidad Bicicleta
  * <p>
  * Se utiliza para exponer información de una bicicleta a través de la API REST,
  * incluyendo la estación a la que pertenece en formato DTO.
