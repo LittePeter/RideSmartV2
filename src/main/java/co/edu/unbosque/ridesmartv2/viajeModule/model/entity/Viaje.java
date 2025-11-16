@@ -8,7 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+/**
+ * Representa un viaje realizado por un usuario en el sistema RideSmart.
+ * <p>
+ * Un viaje está asociado a una {@link Reserva} y se inicia al cumplirse la reserva.
+ * Contiene información sobre duración, costo, estación de inicio y fin, y su relación con el pago.
+ * </p>
+ */
 @Entity
 @Table(name = "Viaje")
 @Data
