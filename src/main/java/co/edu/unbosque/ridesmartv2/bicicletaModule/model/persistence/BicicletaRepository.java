@@ -8,7 +8,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * Repositorio de datos para la entidad {@link Bicicleta}.
+ * <p>
+ * Extiende {@code JpaRepository} y define métodos personalizados para consultas específicas:
+ * por estación, por estado, y actualizaciones parciales (estación, batería, estado, candado).
+ * </p>
+ */
 @Repository
 public interface BicicletaRepository extends JpaRepository<Bicicleta, Long> {
 
