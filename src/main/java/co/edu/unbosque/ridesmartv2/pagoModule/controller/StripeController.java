@@ -8,7 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+/**
+ * Controlador REST para recibir eventos webhook de Stripe.
+ * <p>
+ * Valida la firma del webhook y delega el procesamiento del evento
+ * al {@link PagoWebhookService}.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/v1/webhooks/stripe")
 public class StripeController {
@@ -18,7 +24,16 @@ public class StripeController {
 
     @Autowired
     private PagoWebhookService webhookService;
-
+    /**
+     * Endpoint para recibir eventos webhook de Stripe.
+     * <p>
+     * Valida la firma del mensaje usando el secreto configurado y procesa el evento.
+     * </p>
+     *
+     * @param payload el cuerpo del mensaje webhook en formato JSON.
+     * @param signatureHeader la firma del mensaje enviada por Stripe.
+     * @return un mensaje de confirmación de recepción.
+     */
     @PostMapping
     public ResponseEntity<String> recibirWebhook(
             @RequestBody String payload,

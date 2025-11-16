@@ -8,7 +8,13 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.net.ApiResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * Servicio encargado de procesar los eventos webhook enviados por Stripe.
+ * <p>
+ * Escucha eventos como {@code payment_intent.succeeded} y {@code payment_intent.payment_failed}
+ * para actualizar el estado de los pagos en el sistema.
+ * </p>
+ */
 @Service
 public class PagoWebhookService {
 

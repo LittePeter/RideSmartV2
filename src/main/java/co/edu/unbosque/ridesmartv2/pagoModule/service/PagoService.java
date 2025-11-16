@@ -14,7 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * Implementación del servicio de gestión de pagos.
+ * <p>
+ * Coordina la lógica de negocio para crear pagos, calcular impuestos,
+ * convertir monedas y comunicarse con la API de Stripe.
+ * </p>
+ */
 @Service
 public class PagoService implements InterfacePagoService {
 
